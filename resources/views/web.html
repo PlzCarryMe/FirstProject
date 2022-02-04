@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<head>
+
+<!--start style-->
+<style>
+
+.mystyle {
+  background-color: seagreen;
+  color: white;
+  border: 1px solid greenyellow;
+  margin: 20px;
+  padding: 20px;
+}
+
+.ancestors * {
+  display: block;
+  border: 2px solid lightgrey;
+  color: lightgrey;
+  padding: 5px;
+  margin: 15px;
+}
+
+</style>
+<!--end style-->
+
+<!--start script-->
+<script>
+
+function myFunction() {
+    var element = document.getElementById("myDIV");
+    element.classList.toggle("mystyle");
+}
+
+function toggle(){
+    var x = document.getElementById("myDIV");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+function getalert() {
+    alert("Hello! I am an alert box!");
+  }
+
+function plus(){
+    var x = parseFloat(document.getElementById("x").value);
+    let y = parseFloat(document.getElementById("y").value);
+    result = x +  y;
+
+    document.getElementById("result").innerHTML = result;
+}
+
+function minus(){
+    var x = parseFloat(document.getElementById("x").value);
+    let y = parseFloat(document.getElementById("y").value);
+    result = x -  y;
+
+    document.getElementById("result").innerHTML = result;
+}
+
+function multiply(){
+    var x = parseFloat(document.getElementById("x").value);
+    let y = parseFloat(document.getElementById("y").value);
+    result = x *  y;
+
+    document.getElementById("result").innerHTML = result;
+}
+
+function divide(){
+    var x = parseFloat(document.getElementById("x").value);
+    let y = parseFloat(document.getElementById("y").value);
+    result = x /  y;
+
+    document.getElementById("result").innerHTML = result;
+}
+
+function _onchange(){
+  var x = document.getElementById("mySelect").value;
+  document.getElementById("change").innerHTML = "You selected: " + x;
+
+}
+
+function consolelog(){
+    console.log("Hello world!");
+}
+
+function _confirm() {
+    let text = "Press whichever button you like";
+  if (confirm(text) == true) {
+    text = "You press OK!";
+  } else {
+    text = "You press cancel!";
+  }
+  document.getElementById("selector").innerHTML = text;
+  }
+
+// Jquery
+$(document).ready(function(){
+
+    $("#hide").click(function(){
+
+        $("h3").hide();
+    });
+
+    $("#show").click(function(){
+        $("h3").show();
+    });
+
+    //find
+    $("ul").find("span").css({"color": "red", "border": "2px solid red"});
+})
+
+
+
+</script>
+<!--end script-->
+
+</head>
+
+<!--start body-->
+<body>
+<a href="/">Back</a>
+<br><br>
+
+
+<h3>Class & ID</h3>
+<button onclick="myFunction()">Toggle Class</button>
+<button type="button" onclick="toggle()">Toggle id</button>
+
+<div id="myDIV">
+This is a DIV element.
+</div>
+
+
+<h3>JS variable</h3>
+Var 1: <input type="text" id="x"> <br>
+Var 2: <input type="text" id="y"> <br>
+Answer: <p id="result" onchange = "_onchange()"></p>
+
+<button type="button" onclick="plus()">+</button>
+<button type="button" onclick="minus()">-</button>
+<button type="button" onclick="multiply()">x</button>
+<button type="button" onclick="divide()">/</button>
+<br><br>
+
+
+<h3>onchange</h3>
+<select id="mySelect" onchange="_onchange()">
+  <option value="Audi">Audi
+  <option value="BMW">BMW
+  <option value="Mercedes">Mercedes
+  <option value="Volvo">Volvo
+</select>
+
+<p id="change"></p>
+
+
+<h3>Alert</h3>
+<button onclick="getalert()">Try it</button>
+
+
+<h3>Console Log</h3>
+<button onclick="consolelog()">Try it</button>
+
+
+<h3>Confirm</h3>
+<button onclick="_confirm()">Try it</button> <br>
+Answer: <p id="selector"></p>
+
+
+<h3>JQuery</h3>
+<button id="hide">Hide</button>
+<button id="show">Show</button>
+
+
+<h3>find</h3>
+<div Class = "ancestors">
+  <div style="width:500px;">div (grandparent)
+    <ul>ul (direct parent)
+      <li>li (child)
+        <span>span (grandchild)</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+
+</body>
+<!--end body-->
+
+
+</html>

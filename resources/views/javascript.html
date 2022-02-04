@@ -1,0 +1,114 @@
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+$(document).ready(function(){
+
+    //console log
+    $('#_console').click(function(){
+        console.log("Hello world!");
+
+    });
+
+    //alert
+    $('#_alert').click(function(){
+        alert("Hello world!");
+
+    });
+
+    //confirm
+    $('#_confirm').click(function(){
+
+        if(confirm("Confirm?")){
+            alert("yes");
+        }else{
+            alert("no");
+        }
+
+    });
+
+    //alert selected dropdown
+    $('#_dropdown').change(function(){
+        var opt = $(this).children("option:selected").val();
+        alert(opt);
+    });
+
+    //alert all dropdown value
+    $('#_dropdowntext').click(function(){
+        var arr = [];
+        var counter = 0;
+
+        $('#_dropdown option').each(function(){
+            arr[counter++] = $(this).val() + "\n";
+        });
+
+        alert(arr);
+    });
+
+    //add new tr
+    counter = 2;
+    $("#_append").click(function(){
+        $("table").append(function(){
+            return "<tr id='test'><td>" + counter++ + ". </td><td><button onclick='_delete()'>remove</button></td></tr>"
+        });
+    });
+
+    //show tr
+    $('#_show').click(function(){
+
+        $("tr").show();
+    });
+
+    //hide tr
+    $('#_hide').click(function(){
+
+        $("tr").hide();
+    });
+
+    //merubah isi label
+    $('#_change').click(function(){
+
+        $("label").text("berubah");
+    });
+
+    //append tambah ke label
+    $("#_append2").click(function(){
+
+        $("label").append(" tambah ");
+    });
+
+})
+
+//remove tr
+function _delete(){
+    var select = document.getElementById("test");
+    select.remove();
+}
+
+</script>
+
+<button id="_console" >Console Log</button>
+<button id="_alert" >Alert</button>
+<button id="_confirm">Confirm</button>
+<select id="_dropdown">
+	<option>Choose</option>
+	<option value="a">1</option>
+	<option value="b">2</option>
+	<option value="c">3</option>
+    <option value="d">4</option>
+</select>
+<button id="_dropdowntext">text</button>
+<table>
+	<tr id="test">
+		<td>1</td>
+		<td><button>remove</button></td>
+	</tr>
+</table>
+<button id="_append">append</button>
+<button id="_show">show</button>
+<button id="_hide">hide</button>
+<label>Nice</label>
+<button id="_change">html</button>
+<button id="_append2">append html</button>

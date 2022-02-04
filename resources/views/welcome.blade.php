@@ -93,6 +93,9 @@
                     <a href="https://forge.laravel.com">Forge</a>
                     <a href="https://vapor.laravel.com">Vapor</a>
                     <a href="https://github.com/laravel/laravel">GitHub</a>
+                    <br><br>
+                    <a href="/web" >html page</a>
+                    <a href="/javascript" >javascript page</a>
                 </div>
             </div>
         </div>

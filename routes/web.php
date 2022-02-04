@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -131,3 +132,13 @@ Route::post('/pets/update/{id}', 'PetsController@update')->name('pets.update');
 
 ## Delete
 Route::get('/pets/delete/{id}', 'PetsController@destroy')->name('pets.delete');
+
+//Route::get('/html')->name('html');
+
+Route::get('/web', function () {
+    return view('web');
+});
+
+Route::get('/javascript', function () {
+    return view('javascript');
+});

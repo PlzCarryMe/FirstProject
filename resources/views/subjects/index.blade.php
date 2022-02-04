@@ -15,7 +15,6 @@
       @endif
       <!-- Alert message (end) -->
 
-
       <h3>User List</h3>
       <a class='btn btn-info float-left' href="{{route('subjects.create')}}">Add</a>
 
@@ -48,9 +47,9 @@
                 <div class="table">
                 <thead align="center">
                     <tr>
-                    <th width='25%'>Pet Name</th>
-                    <th width='25%'>Species</th>
-                    <th width='25%'>Date of Birth</th>
+                    <th width='20%'>Pet Name</th>
+                    <th width='10%'>Species</th>
+                    <th width='10%'>Date of Birth</th>
                     </tr>
                 </thead>
                 <tbody align="center">
