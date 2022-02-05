@@ -4,8 +4,6 @@
 <!-- Specify content -->
 @section('content')
 
-
-
 <div class="row">
    <div class="col-md-12 col-sm-12 col-xs-12">
       <!-- Alert message (start) -->
@@ -19,7 +17,7 @@
       <h3>Role List</h3>
       <a class='btn btn-info float-left' href="{{route('role.create')}}">Add</a>
 
-      <table class="table" >
+      <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
         <thead>
           <tr>
             <th width='40%'>Description</th>

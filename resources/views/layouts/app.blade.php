@@ -20,10 +20,29 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" >
 
-    <!-- Jquery -->
+
+    <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Datatables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.4/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.4/datatables.min.js"></script>
+
+    <!-- jQuery datatables -->
+    <script type="text/javascript">
+        $(document).ready( function () {
+
+            var table1 = $('#dataTable1').Datatable();
+
+            $('#dataTable1 tbody').on( 'mouseenter', 'td', function () {
+                    var colIdx1 = table1.cell(this).index().column;
+                    $( table1.cells().nodes() ).removeClass( 'highlight' );
+                    $( table1.column( colIdx1 ).nodes() ).addClass( 'highlight' );
+                });
+        });
+    </script>
 
 </head>
 <body>
