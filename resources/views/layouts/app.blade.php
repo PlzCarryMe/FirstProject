@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -29,20 +29,6 @@
     <!-- Datatables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.4/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.4/datatables.min.js"></script>
-
-    <!-- jQuery datatables -->
-    <script type="text/javascript">
-        $(document).ready( function () {
-
-            var table1 = $('#dataTable1').Datatable();
-
-            $('#dataTable1 tbody').on( 'mouseenter', 'td', function () {
-                    var colIdx1 = table1.cell(this).index().column;
-                    $( table1.cells().nodes() ).removeClass( 'highlight' );
-                    $( table1.column( colIdx1 ).nodes() ).addClass( 'highlight' );
-                });
-        });
-    </script>
 
 </head>
 <body>
@@ -127,5 +113,6 @@
             @yield('content')
         </main>
     </div>
+    @yield('script')
 </body>
 </html>

@@ -1,6 +1,30 @@
 <!-- Extends template page-->
 @extends('layouts.app')
 
+@section('script')
+<script>
+    $(document).ready( function () {
+
+        $('#dataTable1').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax:{
+                     "url": "{{ route('allroles') }}",
+                     "type": "POST",
+                     "data":{ _token: "{{csrf_token()}}"}
+                   },
+
+            columns: [
+                { "data": "description"},
+                { "data": "user[ | ]"},
+                { "data": "actions", orderable: false },
+            ]
+        });
+
+    });
+</script>
+@endsection
+
 <!-- Specify content -->
 @section('content')
 
@@ -20,13 +44,13 @@
       <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
         <thead>
           <tr>
-            <th width='40%'>Description</th>
-            <th width='40%'>User</th>
-            <th width='20%'>Actions</th>
+            <th width='40%'>description</th>
+            <th width='40%'>user</th>
+            <th width='20%'>actions</th>
           </tr>
         </thead>
         <tbody>
-        @foreach($roles as $role)
+        {{-- @foreach($roles as $role)
            <tr>
               <td>{{ $role->description }}</td>
 
@@ -43,10 +67,10 @@
                  <a href="{{ route('role.delete',$role->id) }}" class="btn btn-sm btn-danger">Delete</a>
               </td>
            </tr>
-        @endforeach
+        @endforeach --}}
         </tbody>
      </table>
 
    </div>
 </div>
-@stop
+@endsection

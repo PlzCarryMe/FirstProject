@@ -58,6 +58,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 ## View
 Route::get('/subjects', 'SubjectsController@index')->name('subjects');
 
+##datatables
+Route::post('allusers', 'SubjectsController@allusers')->name('allusers');
+
 ## Create
 Route::get('/subjects/create', 'SubjectsController@create')->name('subjects.create');
 Route::post('/subjects/store', 'SubjectsController@store')->name('subjects.store');
@@ -73,6 +76,9 @@ Route::get('/subjects/delete/{id}', 'SubjectsController@destroy')->name('subject
 ##Role
 ## View
 Route::get('/role', 'RoleController@index')->name('role');
+
+##datatables
+Route::post('allroles', 'RoleController@allroles')->name('allroles');
 
 ## Create
 Route::get('/role/create', 'RoleController@create')->name('role.create');
@@ -90,6 +96,9 @@ Route::get('/role/delete/{id}', 'RoleController@destroy')->name('role.delete');
 ## View
 Route::get('/species', 'SpeciesController@index')->name('species');
 
+##datatables
+Route::post('allspecies', 'SpeciesController@allspecies')->name('allspecies');
+
 ## Create
 Route::get('/species/create', 'SpeciesController@create')->name('species.create');
 Route::post('/species/store', 'SpeciesController@store')->name('species.store');
@@ -106,6 +115,9 @@ Route::get('/species/delete/{id}', 'SpeciesController@destroy')->name('species.d
 ## View
 Route::get('/petnames', 'PetnamesController@index')->name('petnames');
 
+##datatables
+Route::post('allpetnames', 'PetnamesController@allpetnames')->name('allpetnames');
+
 ## Create
 Route::get('/petnames/create', 'PetnamesController@create')->name('petnames.create');
 Route::post('/petnames/store', 'PetnamesController@store')->name('petnames.store');
@@ -121,6 +133,9 @@ Route::get('/petnames/delete/{id}', 'PetnamesController@destroy')->name('petname
 ##Pets
 ## View
 Route::get('/pets', 'PetsController@index')->name('pets');
+
+##datatables
+Route::post('allpets', 'PetsController@allpets')->name('allpets');
 
 ## Create
 Route::get('/pets/create', 'PetsController@create')->name('pets.create');

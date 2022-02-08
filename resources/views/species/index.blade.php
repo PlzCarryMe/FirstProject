@@ -1,10 +1,34 @@
 <!-- Extends template page-->
 @extends('layouts.app')
 
+@section('script')
+<script>
+    $(document).ready( function () {
+
+    $('#dataTable2').DataTable({
+        processing: true,
+            serverSide: true,
+            ajax:{
+                     "url": "{{ route('allspecies') }}",
+                     "type": "POST",
+                     "data":{ _token: "{{csrf_token()}}"}
+                   },
+
+            columns: [
+                { "data": "id"},
+                { "data": "species"},
+                { "data": "petnames"},
+                { "data": "actions", orderable: false},
+            ]
+    });
+
+});
+
+</script>
+@endsection
+
 <!-- Specify content -->
 @section('content')
-
-
 
 <div class="row">
    <div class="col-md-12 col-sm-12 col-xs-12">
@@ -19,7 +43,7 @@
       <h3>Species List</h3>
       <a class='btn btn-info float-left' href="{{route('species.create')}}">Add</a>
 
-      <table class="table" >
+      <table class="table" id="dataTable2">
         <thead>
           <tr>
             <th width='30%'>id</th>
@@ -29,12 +53,9 @@
           </tr>
         </thead>
         <tbody>
-        @foreach($species as $species)
+        {{-- @foreach($species as $species)
            <tr>
               <td>{{ $species->id }}</td>
-              {{-- @php
-                  dd($species->petnames);
-              @endphp --}}
 
               <td> {{$species->name}} </td>
 
@@ -51,7 +72,7 @@
                  <a href="{{ route('species.delete',$species->id) }}" class="btn btn-sm btn-danger">Delete</a>
               </td>
            </tr>
-        @endforeach
+        @endforeach --}}
 
         </tbody>
      </table>

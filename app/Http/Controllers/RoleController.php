@@ -126,4 +126,145 @@ class RoleController extends Controller
 
       return redirect()->route('role');
     }
+
+
+    //Datatables
+    public function allroles(Request $request){
+        //sama dengan kolom dari blade js
+        $columns = array(
+            0 =>'description',
+            1 =>'user',
+            2 =>'actions',
+        );
+
+        // get param <-- ini fix g usa di rubah"
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $search = $request->input('search.value');
+        $order = $columns[$request->input('order.0.column')];
+        $dir   = $request->input('order.0.dir');
+        $draw = $request->input('draw');
+
+        $data = Roles::select('id','description');
+
+        $totalData = $data->count();
+        $totalFiltered = $totalData;
+
+        if (isset($search)) {
+            //mengikuti apa yang bisa d cari
+            $data->orWhere('description', 'LIKE',"%{$search}%");
+            $totalFiltered = $data->count();
+        }
+
+        $data = $data->offset($start)
+        ->limit($limit)
+        ->get();
+
+        $array = [];
+        foreach($data as $role){
+
+            $nestedData['description'] = $role->description;
+
+            $counter = 0;
+            foreach ($role->users as $user){
+                $nestedData['user'][$counter++] = $user->name;
+            }
+
+            $edit =  route('role.edit',$role->id);
+            $delete =  route('role.delete',$role->id);
+            $nestedData['actions'] = "<a href='$edit' class='btn btn-sm btn-info'>Edit</a> <a href='$delete' class='btn btn-sm btn-danger'>Delete</a>";
+
+
+            $array[] = $nestedData;
+            //dd($array);
+
+        }
+        //dd($data);
+
+        // ini juga fix
+        $json_data = [
+            'draw' => intval($draw),
+            'recordsTotal' => intval($totalData),
+            'recordsFiltered' => intval($totalFiltered),
+            'data' => $array,
+        ];
+
+        //dd($array);
+
+        // ini juga fix
+        return json_encode($json_data);
+    }
+
+    // public function allroles(Request $request)
+    // {
+    //     $columns = array(
+    //         0 =>'description',
+    //         1 =>'user',
+    //         2 => 'actions',
+    //     );
+
+    //     $totalData = Roles::count();
+
+    //     $totalFiltered = $totalData;
+
+    //     $limit = $request->input('length');
+    //     $start = $request->input('start');
+    //     $order = $columns[$request->input('order.0.column')];
+    //     $dir = $request->input('order.0.dir');
+
+    //     if(empty($request->input('search.value')))
+    //     {
+    //         $roles = Roles::offset($start)
+    //                      ->limit($limit)
+    //                      ->orderBy($order,$dir)
+    //                      ->get();
+    //     }
+    //     else {
+    //         $search = $request->input('search.value');
+
+    //         $roles =  Roles::where('description','LIKE',"%{$search}%")
+    //                         ->offset($start)
+    //                         ->limit($limit)
+    //                         ->orderBy($order,$dir)
+    //                         ->get();
+
+    //         $totalFiltered = Roles::where('description','LIKE',"%{$search}%")
+    //                          //->orWhere('user', 'LIKE',"%{$search}%")
+    //                          ->count();
+    //     }
+
+    //     $data = array();
+
+    //     foreach ($roles as $role)
+    //     {
+    //         $edit =  route('role.edit',$role->id);
+    //         $delete =  route('role.delete',$role->id);
+
+    //         $nestedData['description'] = $role->description;
+
+    //         foreach ($role->users as $user){
+    //             $nestedData['user'] =  $user->name;
+    //         }
+
+    //         $nestedData['actions'] = "<a href='{$edit}' class='btn btn-sm btn-info'>Edit</a>
+    //                                   <a href='{$delete}' class='btn btn-sm btn-danger'>Delete</a>";
+
+    //         $data[] = $nestedData;
+
+    //     }
+
+
+    //     $json_data = array(
+    //                 "draw"            => intval($request->input('draw')),
+    //                 "recordsTotal"    => intval($totalData),
+    //                 "recordsFiltered" => intval($totalFiltered),
+    //                 "data"            => $data,
+    //                 );
+
+    //     return json_encode($json_data);
+
+    // }
+
+
+
 }

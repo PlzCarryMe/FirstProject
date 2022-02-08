@@ -105,4 +105,79 @@ class SubjectsController extends Controller {
       return redirect()->route('subjects');
       //return Back();
    }
+
+
+   public function allusers(Request $request){
+        //sama dengan kolom dari blade js
+        $columns = array(
+            0 =>'name',
+            1 =>'roles',
+            2 =>'pets',
+            3 =>'actions',
+        );
+
+        // get param <-- ini fix g usa di rubah"
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $search = $request->input('search.value');
+        $order = $columns[$request->input('order.0.column')];
+        $dir   = $request->input('order.0.dir');
+        $draw = $request->input('draw');
+
+        $data = User::select('id','name');
+
+        $totalData = $data->count();
+        $totalFiltered = $totalData;
+
+        if (isset($search)) {
+            //mengikuti apa yang bisa d cari
+            $data->orWhere('name', 'LIKE',"%{$search}%");
+            $totalFiltered = $data->count();
+        }
+
+        $data = $data->offset($start)
+        ->limit($limit)
+        ->get();
+
+        $array = [];
+        foreach($data as $user){
+            $counter = 0;
+            $nestedData['name'] = $user->name;
+
+            foreach ($user->roles as $role){
+                $nestedData['roles'][$counter++] = $role->description;
+            }
+
+            foreach ($user->pets as $pet){
+
+            $nestedData['pets'] = [$pet->petnames->name, $pet->species->name, $pet->date_of_birth];
+
+            }
+
+            $edit =  route('subjects.edit',$user->id);
+            $delete =  route('subjects.delete',$user->id);
+            $nestedData['actions'] = "<a href='$edit' class='btn btn-sm btn-info'>Edit</a> <a href='$delete' class='btn btn-sm btn-danger'>Delete</a>";
+
+
+            $array[] = $nestedData;
+            //dd($array);
+
+        }
+        //dd($data);
+
+        // ini juga fix
+        $json_data = [
+            'draw' => intval($draw),
+            'recordsTotal' => intval($totalData),
+            'recordsFiltered' => intval($totalFiltered),
+            'data' => $array,
+        ];
+
+        //dd($array);
+
+        // ini juga fix
+        return json_encode($json_data);
+    }
+
+
 }

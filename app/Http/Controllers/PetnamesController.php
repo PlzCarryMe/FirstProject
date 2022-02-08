@@ -128,4 +128,75 @@ class PetnamesController extends Controller
 
       return redirect()->route('petnames');
     }
+
+    public function allpetnames(Request $request)
+    {
+        $columns = array(
+            0 =>'id',
+            1 =>'name',
+            2 =>'species',
+            3 => 'actions',
+        );
+
+        $totalData = Petnames::count();
+
+        $totalFiltered = $totalData;
+
+        $limit = $request->input('length');
+        $start = $request->input('start');
+        $order = $columns[$request->input('order.0.column')];
+        $dir = $request->input('order.0.dir');
+
+        if(empty($request->input('search.value')))
+        {
+            $petnames = Petnames::offset($start)
+                         ->limit($limit)
+                         ->orderBy($order,$dir)
+                         ->get();
+        }
+        else {
+            $search = $request->input('search.value');
+
+            $petnames =  Petnames::where('name','LIKE',"%{$search}%")
+                            ->offset($start)
+                            ->limit($limit)
+                            ->orderBy($order,$dir)
+                            ->get();
+
+            $totalFiltered = Petnames::where('name','LIKE',"%{$search}%")
+                             //->orWhere('user', 'LIKE',"%{$search}%")
+                             ->count();
+        }
+
+        $data = array();
+
+        foreach ($petnames as $petname)
+        {
+            $edit =  route('petnames.edit',$petname->id);
+            $delete =  route('petnames.delete',$petname->id);
+
+            $nestedData['id'] = $petname->id;
+            $nestedData['name'] = $petname->name;
+
+            $counter = 0;
+            foreach ($petname->pets as $pet){
+                $nestedData['species'][$counter++] =  $pet->species->name;
+            }
+
+            $nestedData['actions'] = "<a href='{$edit}' class='btn btn-sm btn-info'>Edit</a>
+                                      <a href='{$delete}' class='btn btn-sm btn-danger'>Delete</a>";
+
+            $data[] = $nestedData;
+
+        }
+
+        $json_data = array(
+                    "draw"            => intval($request->input('draw')),
+                    "recordsTotal"    => intval($totalData),
+                    "recordsFiltered" => intval($totalFiltered),
+                    "data"            => $data,
+                    );
+
+        return json_encode($json_data);
+    }
 }

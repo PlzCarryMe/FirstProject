@@ -1,10 +1,33 @@
 <!-- Extends template page-->
 @extends('layouts.app')
 
+@section('script')
+<script>
+    $(document).ready( function () {
+
+        $('#dataTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax:{
+                     "url": "{{ route('allpetnames') }}",
+                     "type": "POST",
+                     "data":{ _token: "{{csrf_token()}}"}
+                   },
+
+            columns: [
+                { "data": "id"},
+                { "data": "name"},
+                { "data": "species"},
+                { "data": "actions", orderable: false },
+            ]
+        });
+
+    });
+</script>
+@endsection
+
 <!-- Specify content -->
 @section('content')
-
-
 
 <div class="row">
    <div class="col-md-12 col-sm-12 col-xs-12">
@@ -19,7 +42,7 @@
       <h3>Pet Name List</h3>
       <a class='btn btn-info float-left' href="{{route('petnames.create')}}">Add</a>
 
-      <table class="table" >
+      <table class="table" id="dataTable">
         <thead>
           <tr>
             <th width='30%'>id</th>
@@ -29,7 +52,7 @@
           </tr>
         </thead>
         <tbody>
-        @foreach($petnames as $petname)
+        {{-- @foreach($petnames as $petname)
            <tr>
               <td>{{ $petname->id }}</td>
 
@@ -49,7 +72,7 @@
                  <a href="{{ route('petnames.delete',$petname->id) }}" class="btn btn-sm btn-danger">Delete</a>
               </td>
            </tr>
-        @endforeach
+        @endforeach --}}
         </tbody>
      </table>
 
