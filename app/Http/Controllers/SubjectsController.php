@@ -141,18 +141,19 @@ class SubjectsController extends Controller {
 
         $array = [];
         foreach($data as $user){
-            $counter = 0;
             $nestedData['name'] = $user->name;
 
+            $test = [];
             foreach ($user->roles as $role){
-                $nestedData['roles'][$counter++] = $role->description;
+                $test[] =  $role->description;
             }
+            $nestedData['roles'] = $test;
 
-            foreach ($user->pets as $pet){
-
-            $nestedData['pets'] = [$pet->petnames->name, $pet->species->name, $pet->date_of_birth];
-
+            $test2 = [];
+            foreach($user->pets as $pet){
+                $test2[] = [$pet->petnames->name, $pet->species->name, $pet->date_of_birth];
             }
+            $nestedData['pets'] = $test2;
 
             $edit =  route('subjects.edit',$user->id);
             $delete =  route('subjects.delete',$user->id);

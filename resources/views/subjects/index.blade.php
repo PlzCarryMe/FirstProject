@@ -6,7 +6,6 @@
     $(document).ready( function () {
 
         var table = $('#dataTable').DataTable({
-            searching: true,
             processing: true,
             serverSide: true,
             ajax:{
@@ -17,8 +16,8 @@
 
             columns: [
                 { "data": "name"},
-                { "data": "roles"},
-                { "data": "pets[ - ]"},
+                { "data": "roles[ | ]"},
+                { "data": "pets[ <br> ]"},
                 { "data": "actions", orderable: false },
             ]
         });

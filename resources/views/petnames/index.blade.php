@@ -17,7 +17,7 @@
             columns: [
                 { "data": "id"},
                 { "data": "name"},
-                { "data": "species"},
+                { "data": "species[ | ]"},
                 { "data": "actions", orderable: false },
             ]
         });

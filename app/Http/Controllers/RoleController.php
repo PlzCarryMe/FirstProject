@@ -165,10 +165,11 @@ class RoleController extends Controller
 
             $nestedData['description'] = $role->description;
 
-            $counter = 0;
+            $test = [];
             foreach ($role->users as $user){
-                $nestedData['user'][$counter++] = $user->name;
+                $test[] =  $user->name;
             }
+            $nestedData['user'] = $test;
 
             $edit =  route('role.edit',$role->id);
             $delete =  route('role.delete',$role->id);

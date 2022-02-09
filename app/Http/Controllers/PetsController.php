@@ -10,7 +10,7 @@ use App\Pets;
 use App\User;
 use App\Species;
 use App\Petnames;
-
+use Hamcrest\Core\HasToString;
 
 class PetsController extends Controller
 {
@@ -157,20 +157,45 @@ class PetsController extends Controller
         $limit = $request->input('length');
         $start = $request->input('start');
         $search = $request->input('search.value');
+        $dropdown = $request->input('filter_option');
         $order = $columns[$request->input('order.0.column')];
         $dir   = $request->input('order.0.dir');
         $draw = $request->input('draw');
 
-        $data = Pets::select('id','date_of_birth','petnames_id','species_id','users_id');
+        $data = Pets::with('users','petnames','species')->select('id','date_of_birth','petnames_id','species_id','users_id');
 
         $totalData = $data->count();
         $totalFiltered = $totalData;
 
+        //dd($dropdown);
         if (isset($search)) {
             //mengikuti apa yang bisa d cari
-            $data->orWhere('date_of_birth', 'LIKE',"%{$search}%");
+            $data->orwhere('date_of_birth', 'like',"%{$search}%");
+
+            $users = User::orwhere('name', 'like', "%{$search}%")->get();
+            foreach($users as $user){
+                $data->orwhere('users_id', 'like', "%{$user->id}%");
+            }
+
+            $petnames = Petnames::orwhere('name', 'like', "%{$search}%")->get();
+            foreach($petnames as $petname){
+                $data->orwhere('petnames_id', 'like', "%{$petname->id}%");
+            }
+
+            $species = Species::orwhere('name', 'like', "%{$search}%")->get();
+            foreach($species as $species){
+                $data->orwhere('species_id', 'like', "%{$species->id}%");
+            }
+
             $totalFiltered = $data->count();
         }
+
+        if(isset($dropdown)) {
+            //mengikuti apa yang bisa d cari
+            $data->orWhere('species_id', 'like', "%{$dropdown}%");
+            $totalFiltered = $data->count();
+        }
+
 
         $data = $data->offset($start)
         ->limit($limit)
@@ -184,14 +209,10 @@ class PetsController extends Controller
             $nestedData['petname'] = $pets->petnames->name;
             $nestedData['species'] = $pets->species->name;
 
-            // foreach ($role->users as $user){
-            //     $nestedData['user'][] = $user->name;
-            // }
-
             $edit =  route('pets.edit',$pets->id);
             $delete =  route('pets.delete',$pets->id);
-            $nestedData['actions'] = "<a href='$edit' class='btn btn-sm btn-info'>Edit</a> <a href='$delete' class='btn btn-sm btn-danger'>Delete</a>";
-
+            $nestedData['actions'] = "<a href='$edit' class='btn btn-sm btn-info'>Edit</a>
+                                     <a href='$delete' class='btn btn-sm btn-danger'>Delete</a>";
 
             $array[] = $nestedData;
             //dd($array);

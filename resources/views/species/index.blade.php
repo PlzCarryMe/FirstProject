@@ -7,19 +7,19 @@
 
     $('#dataTable2').DataTable({
         processing: true,
-            serverSide: true,
-            ajax:{
-                     "url": "{{ route('allspecies') }}",
-                     "type": "POST",
-                     "data":{ _token: "{{csrf_token()}}"}
-                   },
+        serverSide: true,
+        ajax:{
+                    "url": "{{ route('allspecies') }}",
+                    "type": "POST",
+                    "data":{ _token: "{{csrf_token()}}"}
+                },
 
-            columns: [
-                { "data": "id"},
-                { "data": "species"},
-                { "data": "petnames"},
-                { "data": "actions", orderable: false},
-            ]
+        columns: [
+            { "data": "id"},
+            { "data": "species"},
+            { "data": "petnames[ | ]"},
+            { "data": "actions", orderable: false},
+        ]
     });
 
 });

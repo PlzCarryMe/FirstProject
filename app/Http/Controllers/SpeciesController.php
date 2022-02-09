@@ -178,10 +178,11 @@ class SpeciesController extends Controller
             $nestedData['id'] = $species->id;
             $nestedData['species'] = $species->name;
 
-            $counter = 0;
+            $test = [];
             foreach ($species->pets as $pet){
-                $nestedData['petnames'][$counter++] =  $pet->petnames->name;
+                $test[] =  $pet->petnames->name;
             }
+            $nestedData['petnames'] = $test;
 
             $nestedData['actions'] = "<a href='{$edit}' class='btn btn-sm btn-info'>Edit</a>
                                       <a href='{$delete}' class='btn btn-sm btn-danger'>Delete</a>";

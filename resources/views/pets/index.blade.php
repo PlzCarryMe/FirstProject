@@ -5,15 +5,19 @@
 <script>
     $(document).ready( function () {
 
-        $('#dataTable').DataTable({
-            searching: true,
+        var table = $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
             ajax:{
-                     "url": "{{ route('allpets') }}",
-                     "type": "POST",
-                     "data":{ _token: "{{csrf_token()}}"}
-                   },
+                    "url": "{{ route('allpets') }}",
+                    "type": "POST",
+                    "data": function ( d ) {
+                        return $.extend( {}, d, {
+                            "filter_option": $("#categoryFilter").val(),
+                             _token: "{{csrf_token()}}"
+                        });
+                    }
+            },
 
             columns: [
                 { "data": "birth"},
@@ -26,28 +30,32 @@
 
       $("#dataTable_filter.dataTables_filter").append($("#categoryFilter"));
 
-      var categoryIndex = 0;
-      $("#dataTable th").each(function (i) {
-        if ($($(this)).html() == "Species") {
-          categoryIndex = i; return false;
-        }
-      });
-
-      $.fn.dataTable.ext.search.push(
-        function (settings, data, dataIndex) {
-          var selectedItem = $('#categoryFilter').val()
-          var category = data[categoryIndex];
-          if (selectedItem === "" || category.includes(selectedItem)) {
-            return true;
-          }
-          return false;
-        }
-      );
-
-      $("#dataTable").change(function (e) {
+      $('#categoryFilter').bind("keyup change", function(){
         table.draw();
-      });
-      table.draw();
+    });
+
+    //   var categoryIndex = 0;
+    //   $("#dataTable th").each(function (i) {
+    //     if ($($(this)).html() == "Species") {
+    //       categoryIndex = i; return false;
+    //     }
+    //   });
+
+    //   $.fn.dataTable.ext.search.push(
+    //     function (settings, data, dataIndex) {
+    //       var selectedItem = $('#categoryFilter').val()
+    //       var category = data[categoryIndex];
+    //       if (selectedItem === "" || category.includes(selectedItem)) {
+    //         return true;
+    //       }
+    //       return false;
+    //     }
+    //   );
+
+    //   $("#dataTable").change(function (e) {
+    //     table.draw();
+    //   });
+    //   table.draw();
 
     });
 </script>
@@ -73,7 +81,7 @@
         <select id="categoryFilter" class="form-control">
             <option value="">Show All</option>
             @foreach ($species as $species)
-                <option value="{{$species->name}}">{{$species->name}}</option>
+                <option value="{{$species->id}}">{{$species->name}}</option>
             @endforeach
 
         </select>
