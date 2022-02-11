@@ -5,7 +5,7 @@
 <script>
     $(document).ready( function () {
 
-        $('#dataTable1').DataTable({
+        $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
             ajax:{
@@ -41,7 +41,7 @@
       <h3>Role List</h3>
       <a class='btn btn-info float-left' href="{{route('role.create')}}">Add</a>
 
-      <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
             <th width='40%'>description</th>

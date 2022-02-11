@@ -124,19 +124,24 @@ class SubjectsController extends Controller {
         $dir   = $request->input('order.0.dir');
         $draw = $request->input('draw');
 
-        $data = User::select('id','name');
+
+        $data = User::leftjoin('roles_user','roles_user.user_id', '=','users.id')
+                    ->leftjoin('roles', 'roles.id', '=', 'roles_user.roles_id')
+                    ->select('users.id','users.name', 'roles.description');
 
         $totalData = $data->count();
         $totalFiltered = $totalData;
 
         if (isset($search)) {
             //mengikuti apa yang bisa d cari
-            $data->orWhere('name', 'LIKE',"%{$search}%");
+            $data->where('users.name', 'LIKE',"%{$search}%")
+                 ->orWhere('roles.description', 'LIKE',"%{$search}%");
             $totalFiltered = $data->count();
         }
 
         $data = $data->offset($start)
         ->limit($limit)
+        ->orderBy($order, $dir)
         ->get();
 
         $array = [];

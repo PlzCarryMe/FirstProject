@@ -34,30 +34,7 @@
         table.draw();
     });
 
-    //   var categoryIndex = 0;
-    //   $("#dataTable th").each(function (i) {
-    //     if ($($(this)).html() == "Species") {
-    //       categoryIndex = i; return false;
-    //     }
-    //   });
-
-    //   $.fn.dataTable.ext.search.push(
-    //     function (settings, data, dataIndex) {
-    //       var selectedItem = $('#categoryFilter').val()
-    //       var category = data[categoryIndex];
-    //       if (selectedItem === "" || category.includes(selectedItem)) {
-    //         return true;
-    //       }
-    //       return false;
-    //     }
-    //   );
-
-    //   $("#dataTable").change(function (e) {
-    //     table.draw();
-    //   });
-    //   table.draw();
-
-    });
+});
 </script>
 @endsection
 

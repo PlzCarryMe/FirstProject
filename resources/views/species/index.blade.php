@@ -5,7 +5,7 @@
 <script>
     $(document).ready( function () {
 
-    $('#dataTable2').DataTable({
+    $('#dataTable').DataTable({
         processing: true,
         serverSide: true,
         ajax:{
@@ -43,7 +43,7 @@
       <h3>Species List</h3>
       <a class='btn btn-info float-left' href="{{route('species.create')}}">Add</a>
 
-      <table class="table" id="dataTable2">
+      <table class="table" id="dataTable">
         <thead>
           <tr>
             <th width='30%'>id</th>

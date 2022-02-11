@@ -4,7 +4,7 @@
 <!-- Specify content -->
 @section('content')
 
-<h3>Edit Subject</h3>
+<h3>Edit Pets</h3>
 
 <div class="row">
 
