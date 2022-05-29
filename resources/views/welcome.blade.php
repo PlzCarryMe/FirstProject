@@ -96,6 +96,7 @@
                     <br><br>
                     <a href="/web" >html page</a>
                     <a href="/javascript" >javascript page</a>
+                    <a href="/API" >API</a>
                 </div>
             </div>
         </div>

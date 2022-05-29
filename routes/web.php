@@ -157,3 +157,12 @@ Route::get('/web', function () {
 Route::get('/javascript', function () {
     return view('javascript');
 });
+
+// Route::get('/API', function () {
+//     return view('API');
+// });
+
+##API
+Route::get('/API','APIController@show_product');
+//Route::get('/API','APIController@add_product');
+//Route::get('/API','APIController@update');
