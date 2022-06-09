@@ -163,6 +163,4 @@ Route::get('/javascript', function () {
 // });
 
 ##API
-Route::get('/API','APIController@show_product');
-//Route::get('/API','APIController@add_product');
-//Route::get('/API','APIController@update');
+Route::get('/API','APIController@runAPI');

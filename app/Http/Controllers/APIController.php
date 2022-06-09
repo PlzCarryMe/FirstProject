@@ -2,86 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use GuzzleHttp;
+use Exception;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class APIController extends Controller
 {
-    public function show_product(){
-        $client = new GuzzleHttp\Client();
-        $res = $client->request('GET', 'https://reqres.in/api/users?page=1', [
-            'auth' => ''
+    public function runAPI(){
+        $cityAPI = $this->cityAPI();
+        $googleAPI = $this->googleAPI();
+
+        return view('API')->with('arrayAPI',[$cityAPI, $googleAPI]);
+    }
+
+    public function cityAPI(){
+
+        $client = new Client();
+
+        $response = $client->request('GET', 'https://weatherapi-com.p.rapidapi.com/forecast.json?q=Surabaya&days=3', [
+            'headers' => [
+            'X-RapidAPI-Key' => 'f1193e4665mshcc9064726e7e81fp1ac665jsn438234adb9fb',
+            'X-RapidAPI-Host' => 'weatherapi-com.p.rapidapi.com'
+            ]
         ]);
-        $products = json_decode((string) $res->getBody(),true);
+        $data = json_decode((string) $response->getBody(),true);
 
-        return view('API')->with('products',$products);
+        return $data;
     }
 
-    public function add_product()
-    {
-        // URL
-        $apiURL = 'https://reqres.in/api/users?page=1';
+    public function googleAPI(){
 
-       // POST Data
-        $postInput = [
-            'id' => '101',
-            'first_name' => "First",
-            'last_name' => "Last",
-            'email' => "FL@gmail.com"
-        ];
+        $curl = curl_init();
 
-        // Headers
-        $headers = [
-            //...
-            'Content-Type:application/json'
-        ];
+        curl_setopt_array($curl, [
+            CURLOPT_URL => "https://google-search3.p.rapidapi.com/api/v1/search/q=laravel",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => [
+                "X-Proxy-Location: SG",
+                "X-RapidAPI-Host: google-search3.p.rapidapi.com",
+                "X-RapidAPI-Key: b91eebc376msh977f86a62628d2dp1d9d2fjsnf90532decf15",
+                "X-User-Agent: desktop"
+            ],
+        ]);
 
-        $client = new \GuzzleHttp\Client();
-        $response = $client->request('POST', $apiURL, ['form_params' => $postInput, 'headers' => $headers]);
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
 
-        $responseBody = json_decode($response->getBody(), true);
+        curl_close($curl);
 
-        echo $statusCode = $response->getStatusCode(); // status code
-
-        // $response = $response->getBody()->getContents();
-        // echo '<pre>';
-        // print_r($response);
-        dd($responseBody); // body response
-    }
-    // public function store(Request $request)
-    // {
-    //     $data = new GuzzlePost();
-    //     $data->name=$request->get('name');
-    //     $data->save();
-    //     return response()->json('Successfully added');
-
-    // }
-    public function update()
-    {
-
-        $client = new GuzzleHttp\Client();
-        $apiURL = 'https://reqres.in/api/users?page=1';
-        $UpdateInput = [
-            'id' => '101',
-            'first_name' => "unknown",
-            'last_name' => "person",
-            'email' => "unknown@gmail.com"
-        ];
-        $response = $client->request('PUT', $apiURL, ['form_params' => $UpdateInput]);
-        $Upt = json_decode((string) $response->getBody(),true);
-        dd($Upt);
-        return view('API')->with('Upt',$Upt);
-        // return Redirect::route('locations.show', Input::get('id'));
-    }
-
-    public function delete($uri)
-    {
-        try {
-            $this->httpClient->delete($uri)->send();
-        } catch (Exception $e) {
-            echo $e->getMessage();
-            return false;
+        if ($err) {
+            echo "cURL Error #:" . $err;
+        } else {
+            $data = json_decode($response);
+            return $data;
         }
-        return true;
     }
 }

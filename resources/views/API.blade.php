@@ -5,18 +5,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
 
-            @foreach ($products['data'] as $product )
-            <div class="row">
-                <ul>
-                    <h3>{{$product['id']}}</h3>
-                    <div class="col-sm-4">{{$product['first_name']}}</div>
-                    <div class="col-sm-4">{{$product['last_name']}}</div>
-                    <div class="col-sm-4">{{$product['email']}}</div>
-                </ul>
-            </div>
-            @endforeach
-
-
+        @php
+        foreach ($arrayAPI as $API) {
+            dump($API);
+        }
+        @endphp
 
         </div>
     </div>
